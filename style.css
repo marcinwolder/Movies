@@ -1,3 +1,8 @@
+#filmName{
+  position: relative;
+  left: 40%;
+}
+
 .tutorial {
   width: 600px;
   text-align: center;
