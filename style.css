@@ -1,8 +1,3 @@
-#filmName{
-  position: relative;
-  left: 40%;
-}
-
 .tutorial {
   width: 600px;
   text-align: center;
@@ -50,4 +45,11 @@ figure .image img {
 .dropdown-item img {
   height: 50px;
   margin-right: 10px;
+}
+body>.container{
+  display: flex;
+  justify-content: space-between;
+}
+body>.container .dropdown{
+  display: block;
 }
