@@ -46,10 +46,10 @@ figure .image img {
   height: 50px;
   margin-right: 10px;
 }
-body>.container{
+body > .container {
   display: flex;
   justify-content: space-between;
 }
-body>.container .dropdown{
+body > .container .dropdown {
   display: block;
 }
