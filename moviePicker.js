@@ -19,6 +19,44 @@ class moviePicker {
       }
     });
   }
+  movieTemplate = movieDetail => {
+    return `
+      <article class="media">
+        <figure class="media-left">
+          <p class="image">
+            <img src="${movieDetail.Poster}" />
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <h1>${movieDetail.Title}</h1>
+            <h4>${movieDetail.Genre}</h4>
+            <p>${movieDetail.Plot}</p>
+          </div>
+        </div>
+      </article>
+      <article class="notification is-primary">
+        <p class="title">${movieDetail.Awards}</p>
+        <p class="subtitle">Awards</p>
+      </article>
+      <article class="notification is-primary">
+        <p class="title">${movieDetail.BoxOffice}</p>
+        <p class="subtitle">Box Office</p>
+      </article>
+      <article class="notification is-primary">
+        <p class="title">${movieDetail.Metascore}</p>
+        <p class="subtitle">Metascore</p>
+      </article>
+      <article class="notification is-primary">
+        <p class="title">${movieDetail.imdbRating}</p>
+        <p class="subtitle">IMDB Rating</p>
+      </article>
+      <article class="notification is-primary">
+        <p class="title">${movieDetail.imdbVotes}</p>
+        <p class="subtitle">IMDB Votes</p>
+      </article>
+    `;
+  };
   onChoose = async (event) => {
     event.composedPath()[4].children[2].value = event.target.innerText;
     event.composedPath()[3].classList.remove('is-active');
@@ -26,18 +64,27 @@ class moviePicker {
     this.filmInfo = await fetchData({
       i: event.target.getAttribute('data-imdbid'),
     }).then((response) => response.data);
+
+    const filmSummary = document.createElement('div');
+    filmSummary.innerHTML = this.movieTemplate(this.filmInfo);
+    this.element.append(filmSummary);
+    this.filmSummary = filmSummary;
   };
   onInput = async (event) => {
     const result = await fetchData({ s: event.target.value }).then(
       (result) => result.data
     );
+    if (result.Error) return;
 
     const parent = event.target.parentElement;
-    const lastElementOfStack = parent.lastElementChild;
-    if (lastElementOfStack.classList.contains('dropdown')) {
-      lastElementOfStack.remove();
+
+    const parentChildren = [...parent.children];
+    if(parentChildren.includes(this.dropdown)){
+      parentChildren[parentChildren.indexOf(this.dropdown)].remove();
     }
-    if (result.Error) return;
+    if(parentChildren.includes(this.filmSummary)){
+      parentChildren[parentChildren.indexOf(this.filmSummary)].remove();
+    }
 
     const dropdown = document.createElement('div');
     const addClasses = Array(...parent.classList).slice(1);
@@ -60,5 +107,6 @@ class moviePicker {
       optionsList.appendChild(option);
     }
     event.target.parentElement.appendChild(dropdown);
+    this.dropdown = dropdown;
   };
 }

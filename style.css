@@ -48,7 +48,14 @@ figure .image img {
 }
 body > .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+}
+body > .container > div {
+  width: 100%;
+  padding: 2em;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 }
 body > .container .dropdown {
   display: block;
